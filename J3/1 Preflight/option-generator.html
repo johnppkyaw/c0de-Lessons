@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Option Generator</h1>
+  <input type="text" id="option-input">
+  <button id="add-button">Add</button> <br>
+  <select id="select">Saved selections
+  </select>
+
+  <script>
+    const addButton = document.getElementById("add-button");
+    const inputField = document.getElementById("option-input");
+    const select = document.getElementById("select");
+    addButton.onclick = () => {
+      const inputFieldValue = inputField.value;
+      if(inputFieldValue.length > 0) {
+        select.innerHTML = select.innerHTML + `<option>${inputFieldValue}</option>`;
+        inputField.value = "";
+      }
+      
+    }
+  </script>
+  
+</body>
+</html>
