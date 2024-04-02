@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "chai": "^5.1.0",
+    "jest": "^29.7.0",
+    "jtest": "^0.0.1",
+    "mocha": "^10.4.0"
+  },
+  "name": "c0d3-lessons",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johnppkyaw/c0de-Lessons.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johnppkyaw/c0de-Lessons/issues"
+  },
+  "type": "commonjs",
+  "homepage": "https://github.com/johnppkyaw/c0de-Lessons#readme",
+  "description": ""
+}
