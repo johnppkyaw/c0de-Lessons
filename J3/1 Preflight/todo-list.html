@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Todo List</h1>
+  <input type="text" id="todo-input">
+  <button id="add-button" onclick="add()">Add</button>
+  <div class="todoList"></div>
+
+  <script>
+    
+    const todoListDiv = document.getElementsByClassName("todoList")[0];
+    const todoList = localStorage.getItem('todoData') || '[]';
+    const todoData = JSON.parse(todoList);
+    const render = () => {
+      todoListDiv.innerHTML = "";
+      todoData.forEach(task => {
+        todoListDiv.innerHTML = todoListDiv.innerHTML + `<h2 class="todo">${task}</h2>`;
+      })
+      document.querySelectorAll(".todo").forEach((element, i) => {
+        element.onclick = () => {
+          todoList.splice(i, 1);
+          localStorage.setItem('todoData', JSON.stringify(todoData));
+          render();
+        }
+      })
+    }
+    render();
+    const add = () => {
+      const taskInput = document.getElementById("todo-input").value;
+      if(taskInput.length > 0) {
+        todoData.push(taskInput);
+        localStorage.setItem('todoData', JSON.stringify(todoData));
+        render();
+      }
+    }
+    
+  </script>
+  
+</body>
+</html>
