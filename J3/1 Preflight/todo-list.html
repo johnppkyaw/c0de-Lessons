@@ -7,6 +7,8 @@
 </head>
 <body>
   <h1>Todo List</h1>
+  <input type="text" id="filter-field">
+  <button id="filter-button" onclick="render()">Filter</button>
   <input type="text" id="todo-input">
   <button id="add-button" onclick="add()">Add</button>
   <div class="todoList"></div>
@@ -14,22 +16,41 @@
   <script>
     
     const todoListDiv = document.getElementsByClassName("todoList")[0];
+    //get the list from localStorage or set it to empty array if starting for the first time.
     const todoList = localStorage.getItem('todoData') || '[]';
     const todoData = JSON.parse(todoList);
+    const filterField = document.getElementById("filter-field");
+
     const render = () => {
+      const filterString = filterField.value;
       todoListDiv.innerHTML = "";
-      todoData.forEach(task => {
+      if(filterString.length > 1) {
+        const filtered = todoData.filter(ele => {
+          return ele.includes(filterString);
+        })
+        todoListDiv.innerHTML = filtered.reduce((acc, curr) => {
+          return acc + `<h2 class="todo">${curr}</h2>`
+        },"");
+      } else {
+        todoData.forEach(task => {
         todoListDiv.innerHTML = todoListDiv.innerHTML + `<h2 class="todo">${task}</h2>`;
+        
       })
-      document.querySelectorAll(".todo").forEach((element, i) => {
+      }
+      document.querySelectorAll(".todo").forEach((element) => {
         element.onclick = () => {
-          todoList.splice(i, 1);
+          const originalIndex = todoData.indexOf(element);
+          todoData.splice(originalIndex, 1);
+          //save to localStorage after deletion
           localStorage.setItem('todoData', JSON.stringify(todoData));
           render();
         }
       })
+      
     }
+
     render();
+
     const add = () => {
       const taskInput = document.getElementById("todo-input").value;
       if(taskInput.length > 0) {
