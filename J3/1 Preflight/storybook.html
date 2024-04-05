@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Storybook</title>
+</head>
+<body>
+  <button type="button" id="previous" onclick="toPrevious()">Previous</button>
+  <button type="button" id="next" onclick="toNext()">Next</button>
+  <hr>
+  <div id="current"></div>
+  <hr>
+  <textarea id="story"></textarea>
+  <button type="button" id="submit" onclick="save()">Submit</button>
+  <div id="story-list" style="font-size: 28px; font-weight: bold;"></div>
+
+  <script>
+    const storyInputField = document.getElementById("story");
+    const storyListContainer = document.getElementById("story-list");
+    const storyToDisplay = document.getElementById("current");
+    const storyList = storyListContainer.children;
+    storyToDisplay.innerHTML = storyList.length > 0 ? storyList[0].outerHTML : "<div>No Stories</div>";
+    let currIndex = 0;
+
+    function save() {
+      const storyToSave = `<div>${storyInputField.value}</div>`;
+      storyListContainer.innerHTML = storyListContainer.innerHTML + storyToSave;
+      storyToDisplay.innerHTML = storyList[0].outerHTML;
+    }
+
+    function toPrevious() {
+      if(currIndex > 0) {
+        currIndex--;
+        storyToDisplay.innerHTML = storyList[currIndex].outerHTML;
+      }
+    }
+
+    function toNext() {
+      if(currIndex < storyList.length - 1) {
+        currIndex++;
+        storyToDisplay.innerHTML = storyList[currIndex].outerHTML;
+      }
+    }
+
+  </script>  
+</body>
+</html>
