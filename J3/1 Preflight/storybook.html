@@ -13,33 +13,67 @@
   <hr>
   <textarea id="story"></textarea>
   <button type="button" id="submit" onclick="save()">Submit</button>
-  <div id="story-list" style="font-size: 28px; font-weight: bold;"></div>
+  <div id="story-list"></div>
 
   <script>
     const storyInputField = document.getElementById("story");
     const storyListContainer = document.getElementById("story-list");
     const storyToDisplay = document.getElementById("current");
     const storyList = storyListContainer.children;
-    storyToDisplay.innerHTML = storyList.length > 0 ? storyList[0].outerHTML : "<div>No Stories</div>";
     let currIndex = 0;
 
+    let savedStories = localStorage.getItem("stores") || "[]";
+    let storiesData = JSON.parse(savedStories);
+    if(storiesData.length === 0) {
+      storiesData = ["I used to think the brain was the most important organ. Then I thought, look what’s telling me that.",
+      "A farmer in the field with his cows counted 196 of them, but when he rounded them up he had 200.",
+      "What is Bruce Lee’s favorite drink? Wataaaaah!",
+      "If you want to catch a squirrel just climb a tree and act like a nut.",
+      "A magician was walking down the street and turned into a grocery store."
+    ]
+    }
+
+    displayCurrStory();
+    renderStoryList();
+
+    function displayCurrStory() {
+      storyToDisplay.innerText = storiesData[currIndex];                  
+    }
+
+    function renderStoryList() {
+      localStorage.setItem('stores', JSON.stringify(storiesData));
+      
+      storyListContainer.innerHTML = storiesData.reduce((acc,curr) => {
+        return acc + `<h2 class="each-story"> ${curr} </h2>`;
+      }, "");
+
+      document.querySelectorAll(".each-story").forEach((ele, idx) => {
+        ele.onclick = () => {
+          storiesData.splice(idx, 1);
+          renderStoryList();
+        }
+      })
+
+
+    }
+
     function save() {
-      const storyToSave = `<div>${storyInputField.value}</div>`;
-      storyListContainer.innerHTML = storyListContainer.innerHTML + storyToSave;
-      storyToDisplay.innerHTML = storyList[0].outerHTML;
+      storiesData.push(storyInputField.value);
+      renderStoryList();
+      storyInputField.value = "";
     }
 
     function toPrevious() {
       if(currIndex > 0) {
         currIndex--;
-        storyToDisplay.innerHTML = storyList[currIndex].outerHTML;
+        storyToDisplay.innerHTML = storiesData[currIndex];
       }
     }
 
     function toNext() {
-      if(currIndex < storyList.length - 1) {
+      if(currIndex < storiesData.length - 1) {
         currIndex++;
-        storyToDisplay.innerHTML = storyList[currIndex].outerHTML;
+        storyToDisplay.innerHTML = storiesData[currIndex];
       }
     }
 
