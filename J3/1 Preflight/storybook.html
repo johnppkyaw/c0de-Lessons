@@ -57,9 +57,15 @@
 
     }
 
+    //when save button is click, this function is called.
     function save() {
+      //save the story in the input to the storiesData
       storiesData.push(storyInputField.value);
+
+      //this will overwite storiesData in localStorage and also re-render the story container
       renderStoryList();
+
+      //empty the input field
       storyInputField.value = "";
     }
 

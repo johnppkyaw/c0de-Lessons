@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friend Age Notebook</title>
+</head>
+<body>
+  <h1>Friends List</h1>
+  <label for="name">Name:</label>
+  <input id="name" name="name" type="text">
+
+  <label for="age">Age:</label>
+  <input id="age" name="age" type="number">
+
+  <button type="button" id="add" onclick="add()">Add</button>
+
+  <div id="friends-list"></div>
+
+  <script>
+    const nameInput = document.getElementById('name');
+    const ageInput = document.getElementById('age');
+    const friendsList = document.getElementById('friends-list');
+    const nameArr = JSON.parse(localStorage.getItem('name')) || [];
+    const ageArr = JSON.parse(localStorage.getItem('age')) || [];
+
+    renderFriendsList();
+
+    function add() {
+      //add the name and age array
+      nameArr.push(nameInput.value);
+      ageArr.push(ageInput.value);
+
+      //save to localstorage
+      localStorage.setItem('name', JSON.stringify(nameArr));
+      localStorage.setItem('age', JSON.stringify(ageArr));
+
+      //render function
+      renderFriendsList()
+
+      //clear the input fields
+      nameInput.value = "";
+      ageInput.value = "";
+    }
+
+    function renderFriendsList() {
+      friendsList.innerHTML = "";
+
+      //load name and age
+      friendsList.innerHTML = nameArr.reduce((acc, curr, index) => {
+        return acc + 
+          `<div> 
+            <h3 class="friend">${curr}</h3>
+            <h4 style="display: none">${ageArr[index]}</h4>
+          </div>`        
+      },'')
+
+      const friendElements = document.querySelectorAll('.friend');
+      friendElements.forEach((friend, index) => {
+        friend.onclick = () => {
+          alert(`${ageArr[index]}`);
+        }
+      })
+
+    }
+
+  </script>
+  
+</body>
+
+</html>
