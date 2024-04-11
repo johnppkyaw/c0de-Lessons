@@ -157,6 +157,44 @@ Array.prototype.removeDupes = function() {
   filtered.forEach(ele => this.push(ele));
 }
 
+//Write a getNext prototype function for arrays that returns the next element of the array.
+Array.prototype.getNext = function() {
+  const index = this.indexCounter || 0;
+  this.indexCounter = (index + 1) % this.length;
+  return this[index];
+}
+
+//Write an Array setMaxSize prototype function that gives arrays a max length beyond which new elements can no longer be pushed.
+Array.prototype.setMaxSize = function (size) {
+  this.oldPush = this.push;
+  this.push = newElement => {
+    if(this.length<size) {
+      return this.oldPush(newElement)
+    }
+    return this.length;
+  } 
+}
+
+
+//Write a tiredForEach prototype function that runs a function on each element of an array, but makes the user wait a specified amount of time before calling it again.
+Array.prototype.tiredForEach = function(cb, time) {
+  //only if isTired is true. 
+  //it will be a falsy value if undefined or false.
+  if(this.isTired) {
+    return console.log(`Too tired. Please wait ${this.waitTime}ms.`)
+  }
+
+  this.isTired = true
+  this.waitTime = time
+
+  setTimeout(() => {
+    this.isTired = false
+  }, time)
+  
+  return this.forEach(cb);
+}
+
+
 module.exports = {
   addKV,
   filterNonKeys,
