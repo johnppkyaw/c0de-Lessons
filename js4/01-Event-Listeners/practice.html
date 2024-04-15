@@ -68,26 +68,36 @@
     return 'X' + getStr(num, i + 1);
   }
 
-  function renderLogs() {
-    displayDiv2.innerHTML = textLog.reduce((acc, text) => {
-      return `${acc}<h1 class="reveal">${Math.random()}</h1>`;
+  function renderLogs2() {
+    displayDiv2.innerHTML = textLog.reduce((acc, pair) => {
+      return `${acc}<h1 class="message">${pair.fake}</h1>`;
     },"")
+    const allMessageElements = document.querySelectorAll(".message");
+    allMessageElements.forEach((message, index) => {
+    message.addEventListener("mouseover", () => {
+      message.innerText = textLog[index].real;
+    })
+    message.addEventListener("mouseout", () => {
+      message.innerText = textLog[index].fake;
+    })
+  })
   }
 
   typewriterInput2.addEventListener('keyup', (e) => {
     typeDisplayDiv2.innerText = getStr(typewriterInput2.value.length);
     if(e.key === 'Enter') {
-      textLog.unshift(typewriterInput2.value);
-      renderLogs();
+      const pair = {
+        real: typewriterInput2.value,
+        fake: Math.random()
+      }
+      textLog.unshift(pair);
+      renderLogs2();
       typewriterInput2.value = "";
       typeDisplayDiv2.innerText = "";
+      typewriterInput2.focus();
     }
   })
 
-
-
-
-  
   </script>
   
 </body>
