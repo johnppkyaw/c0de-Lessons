@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Elements practice</title>
+</head>
+<body>
+  <h1>List of click coordinates</h1>
+  <ol id="recorder"></ol>
+
+  <script>
+    //Create a click recorder. Every time user clicks on the page, record the x and y coordinates.
+    const coordinatesContainer = document.getElementById('recorder');
+    document.addEventListener('click', (e) => {
+      const newRow = document.createElement('li');
+      newRow.innerText = `X: ${e.clientX} | Y: ${e.clientY}`;
+      coordinatesContainer.append(newRow);
+    }
+    )
+  </script>  
+</body>
+</html>

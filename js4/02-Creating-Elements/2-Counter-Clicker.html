@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter Clicker</title>
+</head>
+<body>
+  <button id="new-counter">New Counter</button>
+  <div id="counter-container"></div>
+
+  <script>
+    const counterButton = document.getElementById('new-counter');
+    const counterDiv = document.getElementById('counter-container');
+    counterButton.onclick = () => {
+      let i = 0;
+      const newCounter = document.createElement('h1');
+      newCounter.innerText = `${i} clicks`;
+      counterDiv.append(newCounter);
+      newCounter.onclick = () => {
+        i = i + 1;
+        newCounter.innerText = `${i} clicks`;
+      }
+    }
+  </script>
+</body>
+
+  
+
+</html>

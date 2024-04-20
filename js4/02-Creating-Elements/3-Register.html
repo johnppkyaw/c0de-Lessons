@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+</head>
+<body>
+  <button type="button" id="add">Add Person</button>
+  <div class="register-container"></div>
+  <hr>
+  <h1>Registered</h1>
+  <div id="list"></div>
+
+  <script>
+    const addPersonButton = document.querySelector("#add");
+    const registerContainerDiv = document.querySelector(".register-container");
+    const listDiv = document.querySelector("#list");
+    const registeredList = [];
+
+    function display() {
+      listDiv.innerText = "";
+      listDiv.innerText = registeredList.reduce((acc, person, index) => {
+        if(index === 0) {
+          return person;
+        }
+        return `${acc}, ${person}`
+      },"")
+    }
+
+    addPersonButton.onclick = () => {
+      const container = document.createElement('div');
+      container.innerHTML = "First Name: <input class='first'> Last Name: <input class='last'><button type='button' class='register'>Register</button>";
+      registerContainerDiv.append(container);
+
+      const registerButton = document.querySelector(".register");
+      const firstName = document.querySelector(".first");
+      const lastName = document.querySelector(".last");
+      registerButton.onclick = () => {
+        registerContainerDiv.innerHTML = "";
+        registeredList.push(firstName.value + " " + lastName.value)
+        display()
+      }
+    }
+  </script>
+</body>
+</html>
