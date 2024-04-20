@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Hover Player</title>
+</head>
+<body>
+  <audio
+    src=""
+    class="aud"
+  ></audio>
+  <input type="text" id="url-input">
+  <h1>Input an MP3 URL and hit Enter</h1>
+  <script>
+    const urlField = document.querySelector("#url-input");
+    const displayField = document.querySelector("h1");
+    const audioField = document.querySelector(".aud");
+    urlField.focus();
+    urlField.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") {
+        audioField.addEventListener('timeupdate', () => {
+          const currTimeMins = Math.floor(audioField.currentTime / 60);
+          let currTimeSecs = Math.floor(audioField.currentTime % 60);
+          if(currTimeSecs < 10) {
+            currTimeSecs = '0' + currTimeSecs;
+          }
+          displayField.innerText = currTimeMins + ":" + currTimeSecs;      
+
+        })
+        audioField.src = urlField.value;
+        audioField.play();
+        displayField.addEventListener('mouseleave', () => {
+          audioField.pause()
+        })
+        displayField.addEventListener('mouseenter', () => {
+          audioField.play()
+        })
+        
+      }
+    })
+
+  </script>
+</body>
+</html>
