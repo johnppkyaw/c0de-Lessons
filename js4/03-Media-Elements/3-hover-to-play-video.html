@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video</title>
+</head>
+<body>
+  <h1>0:00</h1>
+  <video 
+    src="https://songz.c0d3.com/js4/examples/ankurBunny.mp4"
+    class="video"
+    ></video>
+  <script>
+    const timeField = document.querySelector('h1');
+    const video = document.querySelector('.video');
+    video.addEventListener('mouseenter', () => {
+      video.play()
+    })
+    video.addEventListener('mouseleave', () => {
+      video.pause()
+    })
+    video.addEventListener('timeupdate', () => {
+      const timeInSecs = Math.floor(video.currentTime % 60) < 10 ? `0${Math.floor(video.currentTime)}` : Math.floor(video.currentTime);
+      const timeInMins = Math.floor(video.currentTime / 60);
+      timeField.innerText = timeInMins + ':' + timeInSecs;
+
+    })
+  </script>
+
+  
+</body>
+</html>
