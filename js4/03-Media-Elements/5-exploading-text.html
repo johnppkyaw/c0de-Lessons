@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" class="input">
+  <canvas class="canvas" width=800 height=500></canvas>
+  <script>
+    const input = document.querySelector(".input");
+    input.focus();
+    const canvas = document.querySelector(".canvas");
+    const context = canvas.getContext("2d");
+    context.fillStyle = "yellow";
+    context.fillRect(0, 0, 800, 500);
+    context.font = "50px Comic Sans MS"
+    context.fillStyle = "black"
+
+
+    input.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") {
+        const letterArray = input.value.split("");
+        letterArray.forEach(letter => {
+          const randWidth = Math.floor(Math.random() * 801)
+          const randHeight = Math.floor(Math.random() * 501)
+          context.fillText(letter, randWidth, randHeight)
+        })
+        
+        input.value = "";
+        input.focus()        
+      }
+    })
+
+  </script>
+</body>
+</html>
