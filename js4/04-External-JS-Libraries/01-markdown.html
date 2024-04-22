@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Marked in the browser</title>
+</head>
+<body>
+  <textarea class="input" cols="30" rows="15"></textarea>
+  <div id="content"></div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    const ip = document.querySelector('.input');
+    const div = document.getElementById('content');
+    ip.addEventListener("keyup", () => {
+      div.innerHTML = marked.parse(ip.value);
+    })
+  </script>
+</body>
+</html>
