@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accent Reader</title>
+</head>
+<body>
+  <textarea class="input" cols="30" rows="15"></textarea>
+  <select class="accents"></select>
+  <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+  <script>
+    const input = document.querySelector(".input");
+    const options = document.querySelector(".accents");
+    const voices = responsiveVoice.getVoices();
+    console.log(voices);
+    options.innerHTML = voices.reduce((acc, voice) => {
+      return `${acc}<option value="${voice.name}">${voice.name}</option>` 
+    }, "")
+    options.addEventListener("change", (e) => {
+      const languagePicked = options.value;
+      const inputValue = input.value;
+      responsiveVoice.speak(inputValue, languagePicked);
+    })
+  </script>
+</body>
+</html>
