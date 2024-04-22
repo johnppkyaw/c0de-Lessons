@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme Image Generator</title>
+</head>
+<body>
+  <input type="text" class="input">
+  <video class="video"></video>
+  <canvas class="canvas"></canvas>
+  <script>
+    navigator.mediaDevices.getUserMedia({
+      video: true, // webcam
+      audio: true, // microphone
+    }).then((stream) => {
+      videoElement.srcObject = stream
+      videoElement.play()
+    })
+    const videoElement = document.querySelector('.video');
+    const textInput = document.querySelector('.input');
+    textInput.focus()
+    const canvas = document.querySelector('.canvas');
+    const context = canvas.getContext('2d');
+    textInput.addEventListener('keydown', (e) => {
+      if(e.key === "Enter") {
+        canvas.width = videoElement.videoWidth;
+        canvas.height = videoElement.videoHeight;
+        context.drawImage(videoElement, 0, 0)
+        context.font = "50px Comic Sans MS"
+        context.fillStyle = "red"
+        context.fillText(textInput.value, 50, videoElement.videoHeight - 100)
+        textInput.value = "";
+        textInput.focus()
+      }
+    })
+  
+  </script>
+  
+</body>
+</html>
