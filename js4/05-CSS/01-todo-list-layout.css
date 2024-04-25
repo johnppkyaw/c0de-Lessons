@@ -1,0 +1,35 @@
+.container {
+  margin: auto;
+  width: 400px;
+  border: 1px solid blue;
+}
+
+h1 {
+  margin: 10px;
+}
+
+input {
+  width: 90%;
+  margin: 10px;
+}
+
+.todo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+
+.each-todo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(200, 200, 200, 1);
+}
+
+.crossover {
+  text-decoration: line-through;
+}
