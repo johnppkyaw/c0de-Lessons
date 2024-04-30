@@ -25,3 +25,16 @@ body {
 #caption-field {
   width: 300px;
 }
+
+.each-caption {
+  display: flex;
+  flex-direction: row;
+}
+
+h5 {
+  width: 450px;
+}
+
+p {
+  width: 75px;
+}

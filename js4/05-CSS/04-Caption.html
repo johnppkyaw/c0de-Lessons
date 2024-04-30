@@ -17,15 +17,53 @@
   <div class="caption-container">
     <h3>Add Caption</h3>
     <input type="text" placeholder="Caption" id="caption-field">
-    <input type="number" placeholder="Start (ms)"> <br>
-    <input type="number" placeholder="End (ms)">
-    <button type="button">Save</button>
+    <input type="number" placeholder="Start (ms)" id="start-time"> <br>
+    <input type="number" placeholder="End (ms)" id="end-time">
+    <button type="button" id="save-button">Save</button>
     <hr>
+    <div class="subtitle-container"></div>
   </div>
   
 
 <script>
   const video = document.querySelector('.videoElement')
+  const saveButton = document.querySelector('#save-button')
+  const captionField = document.querySelector('#caption-field')
+  const startTimeField = document.querySelector('#start-time')
+  const endTimeField = document.querySelector('#start-time')
+  const captionContainer = document.querySelector('.subtitle-container')
+  const captionsList = [{text: "hello", start: 0, end: 5}, {text: "world", start: 5, end: 10}];
+
+  render();
+
+  function render() {
+    captionContainer.innerHTML = ""
+    captionsList.forEach((caption, index) => {
+      const eachCaptionDiv = document.createElement('div');
+      eachCaptionDiv.setAttribute('class', 'each-caption');
+      const captionDiv = document.createElement('h5');
+      const startDiv = document.createElement('p');
+      const endDiv = document.createElement('p');
+      captionDiv.innerText = caption.text;
+      startDiv.innerText = caption.start;
+      endDiv.innerText = caption.end;
+      eachCaptionDiv.appendChild(captionDiv)
+      eachCaptionDiv.appendChild(startDiv)
+      eachCaptionDiv.appendChild(endDiv)
+      captionContainer.appendChild(eachCaptionDiv);
+
+      eachCaptionDiv.addEventListener('click', () => {
+        if(confirm('Do you want to delete this caption?')) {
+          captionsList.splice(index, 1);
+          render()
+        }
+      })
+    })
+  }
+
+  saveButton.addEventListener('click', () => {
+
+  })
 
   setTimeout(() => {
     video.addEventListener('timeupdate', evt => {
