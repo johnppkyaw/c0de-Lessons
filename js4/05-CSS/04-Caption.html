@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="04-Caption.css">
+  <title>Caption maker</title>
+</head>
+<body>
+  <div class="video-container">
+    <video
+  class="videoElement"
+  src="https://songz.c0d3.com/js4/exercises/pubDomainRemix.mp4"
+  controls>
+  </video>
+  </div>
+  <div class="caption-container">
+    <h3>Add Caption</h3>
+    <input type="text" placeholder="Caption" id="caption-field">
+    <input type="number" placeholder="Start (ms)"> <br>
+    <input type="number" placeholder="End (ms)">
+    <button type="button">Save</button>
+    <hr>
+  </div>
+  
+
+<script>
+  const video = document.querySelector('.videoElement')
+
+  setTimeout(() => {
+    video.addEventListener('timeupdate', evt => {
+      console.log('The current attribute has been updated: ', evt)
+      console.log(video.currentTime * 1000, 'current time')
+    })
+  }, 1000)
+</script>    
+</body>
+</html>
