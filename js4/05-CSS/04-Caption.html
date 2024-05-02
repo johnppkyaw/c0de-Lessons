@@ -9,10 +9,11 @@
 <body>
   <div class="video-container">
     <video
-  class="videoElement"
-  src="https://songz.c0d3.com/js4/exercises/pubDomainRemix.mp4"
-  controls>
-  </video>
+      class="videoElement"
+      src="https://songz.c0d3.com/js4/exercises/pubDomainRemix.mp4"
+      controls>
+    </video>
+    <div class="subtitle"></div>
   </div>
   <div class="caption-container">
     <h3>Add Caption</h3>
@@ -23,16 +24,15 @@
     <hr>
     <div class="subtitle-container"></div>
   </div>
-  
-
 <script>
   const video = document.querySelector('.videoElement')
   const saveButton = document.querySelector('#save-button')
   const captionField = document.querySelector('#caption-field')
   const startTimeField = document.querySelector('#start-time')
-  const endTimeField = document.querySelector('#start-time')
+  const endTimeField = document.querySelector('#end-time')
   const captionContainer = document.querySelector('.subtitle-container')
-  const captionsList = [{text: "hello", start: 0, end: 5}, {text: "world", start: 5, end: 10}];
+  const subtitleDiv = document.querySelector('.subtitle')
+  const captionsList = [{text: "hello", start: 0, end: 5000}, {text: "world", start: 5000, end: 10000}];
 
   render();
 
@@ -62,13 +62,33 @@
   }
 
   saveButton.addEventListener('click', () => {
-
+    if(captionField.value.length > 0 && startTimeField.value >= 0 && endTimeField.value >= 0) {
+      const newCaption = {
+      text: captionField.value,
+      start: parseInt(startTimeField.value), 
+      end: parseInt(endTimeField.value)
+    }
+    captionsList.push(newCaption);
+    render()
+    }
+    captionField.value = "";
+    startTimeField.value = "";
+    endTimeField.value = "";
   })
 
   setTimeout(() => {
     video.addEventListener('timeupdate', evt => {
-      console.log('The current attribute has been updated: ', evt)
-      console.log(video.currentTime * 1000, 'current time')
+      const currInMS = video.currentTime * 1000;
+
+
+      const filteredCaption = captionsList.filter(subtitle => subtitle.start <= currInMS)
+      const validCaption = filteredCaption.filter(subtitle => subtitle.end > currInMS)
+
+      if(validCaption.length) {
+        subtitleDiv.innerText = validCaption[0].text
+      } else {
+        subtitleDiv.innerText = ""
+      }
     })
   }, 1000)
 </script>    

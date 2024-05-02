@@ -9,17 +9,25 @@ body {
 .video-container {
   width: 100%;
   background-color: rgb(4, 33, 18);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+  text-align: center;
 }
 
 .videoElement {
-  width:700px;
+  height:400px;
+}
+
+.subtitle {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  font-size: 30px;
+  padding: 5px;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(20, 40, 50, 0.3);
 }
 
 .caption-container {
-  width:600px;
+  width: 600px;
 }
 
 #caption-field {
