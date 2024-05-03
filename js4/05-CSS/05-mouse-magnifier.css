@@ -1,0 +1,17 @@
+.small {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.large {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.arrow {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
