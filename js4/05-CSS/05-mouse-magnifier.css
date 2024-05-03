@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .small {
   position: absolute;
   top: 0;

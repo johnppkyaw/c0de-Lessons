@@ -7,11 +7,27 @@
   <link rel="stylesheet" href="05-mouse-magnifier.css">
 </head>
 <body>
-  <img class="small" src="https://songz.c0d3.com/js4/exercises/300x225.jpeg" alt="small-dog">
+  <div class="small">
+    <img src="https://songz.c0d3.com/js4/exercises/300x225.jpeg" alt="small-dog">
+  </div>
+  
   <div class="large">
     <img class="large-dog" src="https://songz.c0d3.com/js4/exercises/800x600.jpeg" alt="large-dog">
     <img class="arrow" src="https://songz.c0d3.com/js4/exercises/arrow.png" alt="arrow">
   </div>
+
+  <script>
+    const smallImg = document.querySelector(".small");
+    const arrowImg = document.querySelector(".arrow");
+    smallImg.addEventListener('mousemove', (e) => {
+      const smallClientX = e.clientX;
+      const smallClientY = e.clientY;
+      const largeClientX = smallClientX * (800/300);
+      const largeClientY = smallClientY * (800/300);
+      arrowImg.style.top = largeClientY + "px";
+      arrowImg.style.left = largeClientX + "px";
+    })
+  </script>
   
 </body>
 </html>
