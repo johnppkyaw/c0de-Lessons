@@ -5,17 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smart Watch UI</title>
   <style>
-    .watch {
-      position: absolute;
+    .watch-container {
+      position: fixed;
       bottom: 0px;
       left: 0px;
+      width: 655px;
+      height: 800px;
+      background: url('https://www.c0d3.com/challenges/assets/watch.jpg');
+      overflow: hidden;
+    }
+    .clock-date-container {
+      background-color: blue;
+      margin: 205px auto auto 130px;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      overflow: hidden;
+      position:relative;
+    }
+    iframe {
+      margin-top: -130px;
+      margin-left: -120px;
+    }
+    .clock-date-content {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 50%;
+      text-align: center;
+      background-color: white;
+      cursor: pointer;
+    }
+    h1 {
+      font-size: 5em;
+      margin-top: 30px;
     }
 
   </style>
 </head>
 <body>
-  <div class="watch">
-    <img src="https://c0d3.com/challenges/assets/watch.jpg" alt="watch">
+  <div class="watch-container">
+    <div class="clock-date-container">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13837.132418767216!2d-121.54213260886988!3d38.646316383176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809b294cb545f5c9%3A0x25c34310ddf1e76c!2sHilton%20Garden%20Inn%20Sacramento%20Airport%20Natomas!5e0!3m2!1sen!2sus!4v1715027273459!5m2!1sen!2sus" width="600" height="550" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="clock-date-content">
+        <h1>Time Here</h1>
+        <hr>
+        <h2>Day of the week</h2>
+        <h2>Today's date</h2>
+      </div>
+    </div>    
   </div>
   
   
