@@ -35,10 +35,14 @@
       text-align: center;
       background-color: white;
       cursor: pointer;
+      transition: top 0.5s linear;
     }
     h1 {
       font-size: 5em;
       margin-top: 30px;
+    }
+    .clock-date-content.complete {
+      top: 0%;
     }
 
   </style>
@@ -48,14 +52,39 @@
     <div class="clock-date-container">
       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13837.132418767216!2d-121.54213260886988!3d38.646316383176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809b294cb545f5c9%3A0x25c34310ddf1e76c!2sHilton%20Garden%20Inn%20Sacramento%20Airport%20Natomas!5e0!3m2!1sen!2sus!4v1715027273459!5m2!1sen!2sus" width="600" height="550" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <div class="clock-date-content">
-        <h1>Time Here</h1>
+        <h1 class="time"></h1>
         <hr>
-        <h2>Day of the week</h2>
-        <h2>Today's date</h2>
+        <h2 class="day"></h2>
+        <h2 class="date"></h2>
       </div>
     </div>    
   </div>
-  
-  
+  <script>
+    const timeField = document.querySelector('.time');
+    const dayField = document.querySelector('.day');
+    const dateField = document.querySelector('.date');
+    const dateTimeDiv = document.querySelector('.clock-date-content');
+
+    const d = new Date();
+    const hours = d.getHours();
+    const minutes = d.getMinutes();
+    const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][d.getDay()];
+    const month = ["January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December"][d.getMonth()];
+    const year = d.getFullYear();
+    const date = d.getDate();
+
+    timeField.innerText = `${hours}:${minutes}`
+    dayField.innerText = dayOfWeek;
+    dateField.innerText = `${month} ${date}, ${year}`
+
+    dateTimeDiv.addEventListener('click', () => {
+      if(dateTimeDiv.classList.contains('complete')) {
+        dateTimeDiv.classList.remove('complete')
+      } else {
+        dateTimeDiv.classList.add('complete')
+      }
+    })
+  </script>
 </body>
 </html>
