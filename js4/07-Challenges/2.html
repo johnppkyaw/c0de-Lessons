@@ -25,20 +25,52 @@
     const tenseSpan = document.querySelector("#action-tense");
     const starsDiv = document.querySelector("#stars-container");
     const starElements = [];
+    let reviewClicked = false;
 
     function loopTo(end, func, start = 0) {
-      if(end === start) return;
+      if(end <= start) return;
       func(start);
       return loopTo(end, func, start + 1);
     }
 
-    function Star() {
+    function Star(index) {
       this.element = document.createElement('i');
+      this.element.index = index;
       this.element.className = 'far fa-star';
+
+      this.toggle = (classA, classB) => {
+        this.element.classList.remove(classA);
+        this.element.classList.add(classB);
+      }
+
+      this.fillStars = (index) => {
+        loopTo(index + 1, (i) => {
+          starElements[i].toggle('far', 'fas');
+        })
+        loopTo(starElements.length, (i) => {
+          starElements[i].toggle('fas', 'far');
+        }, index + 1)
+      }
+
+      this.element.addEventListener('mouseover', (e) => {
+        if(reviewClicked) return;
+        this.fillStars(e.target.index);
+        countSpan.innerText = e.target.index + 1;
+        tenseSpan.innerText = 'are giving';
+      })
+
+      this.element.addEventListener('click', (e) => {
+        reviewClicked = !reviewClicked;
+        if(reviewClicked) {
+          this.fillStars(e.target.index);
+          tenseSpan.innerText = 'have given';
+        }
+      })
+
       starsDiv.appendChild(this.element);
     }
 
-    loopTo(5, (i) => starElements.push(Star()));
+    loopTo(5, (i) => starElements.push(new Star(i)));
 
   </script>
 </body>
