@@ -6,29 +6,40 @@
   <title>Stars UI</title>
   <script src="https://kit.fontawesome.com/f09cc3c67c.js" crossorigin="anonymous"></script>
   <style>
-    .stars-container {
-      margin: 20px 0px; 
+    i {
+      font-size: 30px;
     }
-            
+    i.fas {
+      -webkit-text-stroke-width: 3px;
+      -webkit-text-stroke-color: black;
+      color: yellow;      
+    }            
   </style>
 </head>
 <body>
-  <div class="stars-container">
-    <i class="far fa-star fa-2xl"></i>
-    <i class="far fa-star fa-2xl"></i>
-    <i class="far fa-star fa-2xl"></i>
-    <i class="far fa-star fa-2xl"></i>
-    <i class="far fa-star fa-2xl"></i>
+  <div id="stars-container">
   </div>
-  <p>You are giving <span class="number">0</span> Stars!</p>
+  <p>You <span id="action-tense">are giving</span> <span id="count">0</span> Stars!</p>
   <script>
-    const numberSpan = document.querySelector(".number");
-    const stars = document.querySelector(".stars-container").children;
-    [...stars].forEach((star, idx) => {
-      star.addEventListener('mouseover', (e) => {
-        numberSpan.innerText = idx + 1;
-      })      
-    })
+    const countSpan = document.querySelector("#count");
+    const tenseSpan = document.querySelector("#action-tense");
+    const starsDiv = document.querySelector("#stars-container");
+    const starElements = [];
+
+    function loopTo(end, func, start = 0) {
+      if(end === start) return;
+      func(start);
+      return loopTo(end, func, start + 1);
+    }
+
+    function Star() {
+      this.element = document.createElement('i');
+      this.element.className = 'far fa-star';
+      starsDiv.appendChild(this.element);
+    }
+
+    loopTo(5, (i) => starElements.push(Star()));
+
   </script>
 </body>
 </html>
