@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stars UI</title>
+  <script src="https://kit.fontawesome.com/f09cc3c67c.js" crossorigin="anonymous"></script>
+  <style>
+    .stars-container {
+      margin: 20px 0px; 
+    }
+            
+  </style>
+</head>
+<body>
+  <div class="stars-container">
+    <i class="far fa-star fa-2xl"></i>
+    <i class="far fa-star fa-2xl"></i>
+    <i class="far fa-star fa-2xl"></i>
+    <i class="far fa-star fa-2xl"></i>
+    <i class="far fa-star fa-2xl"></i>
+  </div>
+  <p>You are giving <span class="number">0</span> Stars!</p>
+  <script>
+    const numberSpan = document.querySelector(".number");
+    const stars = document.querySelector(".stars-container").children;
+    [...stars].forEach((star, idx) => {
+      star.addEventListener('mouseover', (e) => {
+        numberSpan.innerText = idx + 1;
+      })      
+    })
+  </script>
+</body>
+</html>
