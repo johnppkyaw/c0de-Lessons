@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Google Fair</title>
   <style>
-    #main {
-      text-align: center;
-      position: relative;
+    #small-image-container {
+      margin: auto;
+      width:421px;
+      height:168px;
+      cursor: none;
     }
     #cursor {
       pointer-events: none;
@@ -16,42 +18,39 @@
       border-radius: 50%;
       position: absolute;
       display: none;
-      overflow: hidden;
       background: url("https://www.c0d3.com/challenges/assets/fair/big.jpg");
+      background-repeat: no-repeat;
     }
   </style>
 </head>
 <body>
-  <div id="main">
+  <div id="small-image-container">
     <img id="fair-image-small" src="https://www.c0d3.com/challenges/assets/fair/small.jpg" alt="fair-small">
-    <div id="cursor">
-      <div id="large">
-        <img src="https://www.c0d3.com/challenges/assets/fair/scope.png" alt="fair-large">
-      </div>
-    </div>
+  </div>
+  <div id="cursor">
+    <img src="https://www.c0d3.com/challenges/assets/fair/scope.png" alt="fair-large">
   </div>
   <script>
     const smallImgDiv = document.querySelector('#fair-image-small');
     const cursorDiv = document.querySelector('#cursor');
-    //1263
-    //421
-    //ratio 3;
-
+    const xRatio = 1263/421;
+    const yRatio = 503/168;
 
     smallImgDiv.onmousemove = (e) => {
       const xPosition = e.clientX;
       const yPosition = e.clientY;
+      const xLargePosition = (e.offsetX) * xRatio;
+      const yLargePosition = (e.offsetY) * yRatio;
       cursorDiv.style.display = 'block';
       cursorDiv.style.top = `${yPosition - 100}px`;
       cursorDiv.style.left = `${xPosition - 100}px`;
-      console.log(xPosition, yPosition);
-      console.log(e.offsetX, e.offsetY);      
+      cursorDiv.style.backgroundPositionX = `${-1 * xLargePosition + 100}px`; cursorDiv.style.backgroundPositionY = `${-1 * yLargePosition + 100}px`; 
     }
+
     smallImgDiv.onmouseleave = (e) => {
       cursorDiv.style.display = 'none';
     }
-  </script>
 
-  
+  </script>
 </body>
 </html>
