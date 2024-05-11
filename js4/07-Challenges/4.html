@@ -5,72 +5,104 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lights Off</title>
   <style>
-    div.row {
-      display: flex;
-      flex-direction: row;
-      margin-bottom: 5px;
-    }
     div div {
+      display: inline-block;
+      box-sizing: border-box;
       height: 50px;
       width: 50px;
       border: 1px solid black;
       cursor: pointer;
+      background-color: rgb(163, 162, 162);
     }
     div.on {
       background-color:rgb(145, 236, 172);
     }
-    div.off {
-      background-color: rgb(163, 162, 162);
-    }
   </style>
 </head>
 <body>
+  <div id="container"></div>
   <script>
+    const blockContainer = document.querySelector('#container');
+
     const loopTo = (index, func, initial = 0) => {
       if(index <= initial) return;
       func(initial);
       return loopTo(index, func, initial + 1);
     }
 
-    const toggleClass = (element, classA, classB) => {
-      element.classList.remove(classA);
-      element.classList.add(classB);
-    }
-
-    function createGame(dimension = 2) {
-      document.body.innerHTML = '';
-      const randomRow = Math.floor(Math.random() * dimension);
-      const randomCol = Math.floor(Math.random() * dimension);
-      console.log(randomRow, randomCol);
-
-      const rowDivArr = [];
-
-      loopTo(dimension, (i) => {
-        const rowDiv = document.createElement('div');
-        rowDiv.setAttribute('class', `row`);
-        rowDiv.classList.add(i);
-        rowDivArr.push(rowDiv);
-      })
-
-      rowDivArr.forEach((row, rowIndex) => {
-        loopTo(dimension, (i) => {
-        const blockDiv = document.createElement('div');
-        blockDiv.setAttribute('class', i);
-        if(i === randomCol && rowIndex === randomRow) {
-          blockDiv.classList.add('on');
-        } else {
-          blockDiv.classList.add('off');
+    const checkLights = (array, row = 0, col = 0) => {
+      if(row === size) {
+        size = +prompt('You won! Enter the dimension to play the next game');
+        if(size) {
+          blockContainer.innerHTML = '';
+          blockArr = [];
+          createGame(size);
         }
-        row.appendChild(blockDiv);
-        document.body.appendChild(row)
-        })
-      })
-
-      console.log(rowDivArr)
+        return true;
+      }
+      if(col === size) {
+        return checkLights(array, row + 1, 0);
+      }
+      if(array[row][col].isOn()) return false;
+      return checkLights(array, row, col + 1);
     }
-    createGame();
-    //if all the lights are off 
-     //prompt winning message and ask for dimension
+
+    const Block = function(row, col) {
+      this.element = document.createElement('div');
+      this.lightsOn = false;
+      this.isOn = () => {
+        return this.element.classList.contains('on');
+      }
+      this.toggle = () => {
+        this.lightsOn = !this.lightsOn;
+        if(this.lightsOn) {
+          this.element.classList.add('on');
+        } else {
+          this.element.classList.remove('on')
+        }        
+      }
+      this.element.onclick = () => {
+        if(!this.isOn) return;
+        console.log('clicked');
+        console.log(`top: ${row - 1} ${col} left: ${row} ${col - 1} bottom: ${row + 1} ${col} right: ${row} ${col + 1} `);
+        this.toggle(); 
+        //top
+        blockArr[row - 1] && blockArr[row - 1][col].toggle();
+        //right
+        blockArr[row][col + 1] && blockArr[row][col + 1].toggle();
+        //bottom
+        blockArr[row + 1] && blockArr[row + 1][col].toggle();
+        //left
+        blockArr[row][col - 1] && blockArr[row][col - 1].toggle();
+
+        console.log(checkLights(blockArr));
+      }
+      blockContainer.appendChild(this.element);
+    }
+
+    const buildBlock = (size, row = 0, col = 0, tempArr = []) => {
+      if(row === size) return;
+      if(col === size) {
+        blockArr.push(tempArr);
+        tempArr = []
+        return buildBlock(size, row + 1, 0, tempArr);        
+      }
+      tempArr.push(new Block(row, col));
+      return buildBlock(size, row, col + 1, tempArr);
+    }
+
+    let size = 2;
+    let blockArr = [];
+
+    function createGame(size) {      
+      blockContainer.style.width = `${50 * size}px`;
+      buildBlock(size);
+
+      const randomRow = Math.floor(Math.random() * size);
+      const randomCol = Math.floor(Math.random() * size);
+      blockArr[randomRow][randomCol].toggle();
+    }
+    createGame(size);
     
   </script>
   
