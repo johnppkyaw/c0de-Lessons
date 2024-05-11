@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lights Off</title>
+  <style>
+    div.row {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 5px;
+    }
+    div div {
+      height: 50px;
+      width: 50px;
+      border: 1px solid black;
+      cursor: pointer;
+    }
+    div.on {
+      background-color:rgb(145, 236, 172);
+    }
+    div.off {
+      background-color: rgb(163, 162, 162);
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const loopTo = (index, func, initial = 0) => {
+      if(index <= initial) return;
+      func(initial);
+      return loopTo(index, func, initial + 1);
+    }
+
+    const toggleClass = (element, classA, classB) => {
+      element.classList.remove(classA);
+      element.classList.add(classB);
+    }
+
+    function createGame(dimension = 2) {
+      document.body.innerHTML = '';
+      const randomRow = Math.floor(Math.random() * dimension);
+      const randomCol = Math.floor(Math.random() * dimension);
+      console.log(randomRow, randomCol);
+
+      const rowDivArr = [];
+
+      loopTo(dimension, (i) => {
+        const rowDiv = document.createElement('div');
+        rowDiv.setAttribute('class', `row`);
+        rowDiv.classList.add(i);
+        rowDivArr.push(rowDiv);
+      })
+
+      rowDivArr.forEach((row, rowIndex) => {
+        loopTo(dimension, (i) => {
+        const blockDiv = document.createElement('div');
+        blockDiv.setAttribute('class', i);
+        if(i === randomCol && rowIndex === randomRow) {
+          blockDiv.classList.add('on');
+        } else {
+          blockDiv.classList.add('off');
+        }
+        row.appendChild(blockDiv);
+        document.body.appendChild(row)
+        })
+      })
+
+      console.log(rowDivArr)
+    }
+    createGame();
+    //if all the lights are off 
+     //prompt winning message and ask for dimension
+    
+  </script>
+  
+</body>
+</html>
