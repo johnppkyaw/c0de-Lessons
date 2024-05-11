@@ -24,19 +24,13 @@
   <script>
     const blockContainer = document.querySelector('#container');
 
-    const loopTo = (index, func, initial = 0) => {
-      if(index <= initial) return;
-      func(initial);
-      return loopTo(index, func, initial + 1);
-    }
-
     const checkLights = (array, row = 0, col = 0) => {
       if(row === size) {
         size = +prompt('You won! Enter the dimension to play the next game');
-        if(size) {
+        if(parseInt(size)) {
           blockContainer.innerHTML = '';
           blockArr = [];
-          createGame(size);
+          createGame();
         }
         return true;
       }
@@ -51,7 +45,7 @@
       this.element = document.createElement('div');
       this.lightsOn = false;
       this.isOn = () => {
-        return this.element.classList.contains('on');
+        return this.lightsOn;
       }
       this.toggle = () => {
         this.lightsOn = !this.lightsOn;
@@ -62,9 +56,7 @@
         }        
       }
       this.element.onclick = () => {
-        if(!this.isOn) return;
-        console.log('clicked');
-        console.log(`top: ${row - 1} ${col} left: ${row} ${col - 1} bottom: ${row + 1} ${col} right: ${row} ${col + 1} `);
+        if(!this.lightsOn) return;
         this.toggle(); 
         //top
         blockArr[row - 1] && blockArr[row - 1][col].toggle();
@@ -74,8 +66,7 @@
         blockArr[row + 1] && blockArr[row + 1][col].toggle();
         //left
         blockArr[row][col - 1] && blockArr[row][col - 1].toggle();
-
-        console.log(checkLights(blockArr));
+        checkLights(blockArr);
       }
       blockContainer.appendChild(this.element);
     }
@@ -94,7 +85,7 @@
     let size = 2;
     let blockArr = [];
 
-    function createGame(size) {      
+    function createGame() {      
       blockContainer.style.width = `${50 * size}px`;
       buildBlock(size);
 
@@ -102,7 +93,7 @@
       const randomCol = Math.floor(Math.random() * size);
       blockArr[randomRow][randomCol].toggle();
     }
-    createGame(size);
+    createGame();
     
   </script>
   
