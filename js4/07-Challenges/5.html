@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kanban Board</title>
+  <style>
+    body {
+      padding: 30px;
+      box-sizing: border-box;
+    }
+    .each-board {
+      display: inline-block;
+      margin-right: 30px;
+      box-sizing: border-box;
+      width: 23%;
+    }
+
+    .input-area {
+      display: flex;
+      flex-direction: row;
+      height: 100%;
+      width: auto;
+    }
+
+    textarea {
+      height: 80px;
+      width: 80%;
+    }
+    button {
+      width: 20%;
+      min-width: max-content;
+    }
+
+    .title {
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    #to-do {
+      background-color: #35235D;
+    }
+
+    #doing {
+      background-color: #CB2402;
+    }
+
+    #done {
+      background-color: #4C49A2;
+    }
+
+    #approved {
+      background-color: #A31A48;
+    }
+  </style>
+</head>
+<body>
+  <div class="each-board">
+    <div class="title" id="to-do">To-Do</div>
+    <div class="input-area">
+      <textarea id="to-do-input"></textarea>
+      <button type="button" id="to-do-input-btn">Submit</button>
+    </div>
+  </div>
+  <div class="each-board">
+    <div class="title" id="doing">Doing</div>
+    <div class="input-area">
+      <textarea id="doing-input"></textarea>
+      <button type="button" id="doing-input-btn">Submit</button>
+    </div>
+  </div>
+  <div class="each-board">
+    <div class="title" id="done">Done</div>
+    <div class="input-area">
+      <textarea id="done-input"></textarea>
+      <button type="button" id="done-btn">Submit</button>
+    </div>
+  </div>
+  <div class="each-board">
+    <div class="title" id="approved">Approved</div>
+    <div class="input-area">
+      <textarea id="approved-input"></textarea>
+      <button type="button" id="approved-input-btn">Submit</button>
+    </div>
+  </div>  
+</body>
+</html>
