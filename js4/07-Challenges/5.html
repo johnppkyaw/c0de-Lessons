@@ -28,10 +28,6 @@
       width: 100%;
     }
 
-    button {
-      width: 20%;
-      min-width: max-content;
-    }
 
     .title {
       color: white;
@@ -53,6 +49,13 @@
 
     #approved {
       background-color: #A31A48;
+    }
+
+    #undo-btn {
+      position:fixed;
+      bottom: 0;
+      right: 0;
+      padding: 20px;
     }
   </style>
 </head>
@@ -84,6 +87,7 @@
       <textarea rows="5" id="approved-input"></textarea>
       <button type="button" id="approved-input-btn">Submit</button>
     </div>
-  </div>  
+  </div>
+  <button id="undo-btn">Undo</button>  
 </body>
 </html>
