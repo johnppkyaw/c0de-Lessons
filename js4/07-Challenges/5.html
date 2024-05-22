@@ -6,27 +6,28 @@
   <title>Kanban Board</title>
   <style>
     body {
-      padding: 30px;
-      box-sizing: border-box;
+      display: flex;
+      margin-top: 30px;      
     }
     .each-board {
       display: inline-block;
+      margin-left: 30px;
+      width: 25%;
+    }
+
+    .each-board:last-of-type {
       margin-right: 30px;
-      box-sizing: border-box;
-      width: 23%;
     }
 
     .input-area {
       display: flex;
-      flex-direction: row;
-      height: 100%;
-      width: auto;
+      width: 100%;
     }
 
     textarea {
-      height: 80px;
-      width: 80%;
+      width: 100%;
     }
+
     button {
       width: 20%;
       min-width: max-content;
@@ -59,28 +60,28 @@
   <div class="each-board">
     <div class="title" id="to-do">To-Do</div>
     <div class="input-area">
-      <textarea id="to-do-input"></textarea>
+      <textarea rows="5" id="to-do-input"></textarea>
       <button type="button" id="to-do-input-btn">Submit</button>
     </div>
   </div>
   <div class="each-board">
     <div class="title" id="doing">Doing</div>
     <div class="input-area">
-      <textarea id="doing-input"></textarea>
+      <textarea rows="5" id="doing-input"></textarea>
       <button type="button" id="doing-input-btn">Submit</button>
     </div>
   </div>
   <div class="each-board">
     <div class="title" id="done">Done</div>
     <div class="input-area">
-      <textarea id="done-input"></textarea>
+      <textarea rows="5" id="done-input"></textarea>
       <button type="button" id="done-btn">Submit</button>
     </div>
   </div>
   <div class="each-board">
     <div class="title" id="approved">Approved</div>
     <div class="input-area">
-      <textarea id="approved-input"></textarea>
+      <textarea rows="5" id="approved-input"></textarea>
       <button type="button" id="approved-input-btn">Submit</button>
     </div>
   </div>  
