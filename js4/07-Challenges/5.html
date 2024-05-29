@@ -28,7 +28,6 @@
       width: 100%;
     }
 
-
     .title {
       color: white;
       padding: 10px;
@@ -60,34 +59,78 @@
   </style>
 </head>
 <body>
-  <div class="each-board">
-    <div class="title" id="to-do">To-Do</div>
-    <div class="input-area">
-      <textarea rows="5" id="to-do-input"></textarea>
-      <button type="button" id="to-do-input-btn">Submit</button>
-    </div>
-  </div>
-  <div class="each-board">
-    <div class="title" id="doing">Doing</div>
-    <div class="input-area">
-      <textarea rows="5" id="doing-input"></textarea>
-      <button type="button" id="doing-input-btn">Submit</button>
-    </div>
-  </div>
-  <div class="each-board">
-    <div class="title" id="done">Done</div>
-    <div class="input-area">
-      <textarea rows="5" id="done-input"></textarea>
-      <button type="button" id="done-btn">Submit</button>
-    </div>
-  </div>
-  <div class="each-board">
-    <div class="title" id="approved">Approved</div>
-    <div class="input-area">
-      <textarea rows="5" id="approved-input"></textarea>
-      <button type="button" id="approved-input-btn">Submit</button>
-    </div>
-  </div>
-  <button id="undo-btn">Undo</button>  
+  <button id="undo-btn">Undo</button>
+  <script>
+    const numberOfBoards = 4;
+    for (let i = 1; i <= numberOfBoards; i++) {
+      const newBoard = document.createElement('div');
+      newBoard.setAttribute('class', 'each-board');
+      newBoard.innerHTML = "board #" + i;
+      document.body.appendChild(newBoard);
+    }
+
+    const initial = [
+      {title: "To-Do", color: "#35235D", tasks: []},
+      {title: "Doing", color: "#CB2402", tasks: []},
+      {title: "Done", color: "#4C49A2", tasks: []},
+      {title: "Approved", color: "#A31A48", tasks: []},
+    ];
+
+    const data = JSON.parse(localStorage.getItem('Kanban')) || initial;
+
+    const manageTask = (command, task, index, taskId, swapDirection) => {
+      switch(command) {
+        case 'add':
+          data[index].tasks.push(task);
+          localStorage.setItem('Kanban', JSON.stringify(data));
+          renderBoard();
+          return;
+        case 'swap':
+          data[index].tasks.splice(taskId, 1);
+          data[index + swapDirection].tasks.push(task);
+          localStorage.setItem('Kanban', JSON.stringify(data));
+          renderBoard();
+          return;
+        case 'delete':
+          data[index].tasks.splice(taskId, 1);
+          localStorage.setItem('Kanban', JSON.stringify(data));
+          renderBoard();
+        default: return;
+      }
+
+    }
+
+    const saveTask = (index) => {
+      const targetTextArea = document.querySelector(`#input-data-${index}`);
+      if(targetTextArea.value.length < 0) return;
+      manageTask('add', targetTextArea.value, index);
+      targetTextArea.value = "";       
+    }
+
+    const renderBoard = () => {
+      data.forEach((board, index) => {
+        const currentBoard = data[index];
+        const currentBoardTitle = currentBoard.title;
+        const currentBoardColor = currentBoard.color;
+        const currentTaskList = currentBoard.tasks;
+        const currentBoardDiv = document.querySelectorAll('.each-board')[index];
+        const leftBracket = index > 0 ? "<" : "";
+        const rightBracket = index < numberOfBoards - 1 ? ">" : "";
+        currentBoardDiv.innerHTML = `
+          <div class="title" style="background-color: ${currentBoardColor}">${currentBoardTitle}</div>
+          <div id="task-container-${index}">
+            ${board.tasks.reduce((acc, task) => {
+              return `<div>${leftBracket} ${task} ${rightBracket}</div>`              
+            }, "")}
+            </div>
+            <div class="input-area">
+          <textarea rows="5" id="input-data-${index}"></textarea>
+          <button type="button" id="input-submit-${index}-btn" onclick="saveTask(${index})">Submit</button>
+          </div>
+        `;
+      });
+    }
+    renderBoard();
+  </script>  
 </body>
 </html>
