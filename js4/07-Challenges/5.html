@@ -68,6 +68,9 @@
       word-break: break-all;
       gap: 10px;
     }
+    .task:hover {
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -90,33 +93,33 @@
 
     const data = JSON.parse(localStorage.getItem('Kanban')) || initial;
 
-    const manageTask = (command, task, index, taskId, swapDirection) => {
+    const previousActivities = JSON.parse(localStorage.getItem('Previous')) || [];
+
+    const manageTask = (command, index, taskId, swapDirection) => {
       switch(command) {
         case 'add':
-          data[index].tasks.push(task);
+          const targetTextArea = document.querySelector(`#input-data-${index}`);
+          if(targetTextArea.value.length < 0) return;
+          const taskToAdd = targetTextArea.value;
+          data[index].tasks.push(taskToAdd);
           localStorage.setItem('Kanban', JSON.stringify(data));
           renderBoard();
+          targetTextArea.value = ""; 
           return;
         case 'swap':
-          data[index].tasks.splice(taskId, 1);
+          const task = data[index].tasks.splice(taskId, 1);
           data[index + swapDirection].tasks.push(task);
           localStorage.setItem('Kanban', JSON.stringify(data));
           renderBoard();
           return;
         case 'delete':
-          data[index].tasks.splice(taskId, 1);
+          if(confirm('Delete this task?')) {
+            data[index].tasks.splice(taskId, 1);
+          }          
           localStorage.setItem('Kanban', JSON.stringify(data));
           renderBoard();
         default: return;
       }
-
-    }
-
-    const saveTask = (index) => {
-      const targetTextArea = document.querySelector(`#input-data-${index}`);
-      if(targetTextArea.value.length < 0) return;
-      manageTask('add', targetTextArea.value, index);
-      targetTextArea.value = "";       
     }
 
     const renderBoard = () => {
@@ -132,14 +135,17 @@
         currentBoardDiv.innerHTML = `
           <div class="title" style="background-color: ${currentBoardColor}">${currentBoardTitle}</div>
           <div id="task-container-${index}">
-            ${board.tasks.reduce((acc, task) => {
-              return acc + `<div class="task"><div>${leftBracket}</div>
-              <div>${task}</div><div>${rightBracket}</div></div>`              
+            ${board.tasks.reduce((acc, task, taskIdx) => {
+              return acc + `
+                <div class="task">
+                  <div class="left" onclick="manageTask('swap', ${index}, ${taskIdx}, -1)">${leftBracket}</div>
+                  <div onclick="manageTask('delete', ${index}, ${taskIdx})">${task}</div>
+                  <div class="right" onclick="manageTask('swap', ${index}, ${taskIdx}, 1)">${rightBracket}</div></div>`              
             }, "")}
             </div>
             <div class="input-area">
           <textarea rows="5" id="input-data-${index}"></textarea>
-          <button type="button" id="input-submit-${index}-btn" onclick="saveTask(${index})">Submit</button>
+          <button type="button" id="input-submit-${index}-btn" onclick="manageTask('add', ${index})">Submit</button>
           </div>
         `;
       });
