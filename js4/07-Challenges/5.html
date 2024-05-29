@@ -22,6 +22,7 @@
     .input-area {
       display: flex;
       width: 100%;
+      margin-top: -5px;
     }
 
     textarea {
@@ -55,6 +56,17 @@
       bottom: 0;
       right: 0;
       padding: 20px;
+    }
+
+    .task {
+      margin-bottom: 5px;
+      padding: 5px;
+      background-color: rgb(231, 219, 215);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      word-break: break-all;
+      gap: 10px;
     }
   </style>
 </head>
@@ -109,6 +121,7 @@
 
     const renderBoard = () => {
       data.forEach((board, index) => {
+        console.log(board.tasks);
         const currentBoard = data[index];
         const currentBoardTitle = currentBoard.title;
         const currentBoardColor = currentBoard.color;
@@ -120,7 +133,8 @@
           <div class="title" style="background-color: ${currentBoardColor}">${currentBoardTitle}</div>
           <div id="task-container-${index}">
             ${board.tasks.reduce((acc, task) => {
-              return `<div>${leftBracket} ${task} ${rightBracket}</div>`              
+              return acc + `<div class="task"><div>${leftBracket}</div>
+              <div>${task}</div><div>${rightBracket}</div></div>`              
             }, "")}
             </div>
             <div class="input-area">
