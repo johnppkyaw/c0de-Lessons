@@ -35,22 +35,6 @@
       text-align: center;
     }
 
-    #to-do {
-      background-color: #35235D;
-    }
-
-    #doing {
-      background-color: #CB2402;
-    }
-
-    #done {
-      background-color: #4C49A2;
-    }
-
-    #approved {
-      background-color: #A31A48;
-    }
-
     #undo-btn {
       position:fixed;
       bottom: 0;
@@ -94,37 +78,91 @@
     const data = JSON.parse(localStorage.getItem('Kanban')) || initial;
 
     const previousActivities = JSON.parse(localStorage.getItem('Previous')) || [];
+    //{action: , index: , taskId: , swapDirection: , task: }
 
-    const manageTask = (command, index, taskId, swapDirection) => {
+    const manageTask = (command, index, taskId, swapDirection, taskSaved) => {
       switch(command) {
         case 'add':
           const targetTextArea = document.querySelector(`#input-data-${index}`);
           if(targetTextArea.value.length < 0) return;
           const taskToAdd = targetTextArea.value;
           data[index].tasks.push(taskToAdd);
+          previousActivities.push({
+            action: 'undoAdd',
+            index: index,
+            taskId: null,
+            swapDirection: null,
+            task: taskToAdd
+          })
           localStorage.setItem('Kanban', JSON.stringify(data));
+          localStorage.setItem('Previous', JSON.stringify(previousActivities));
           renderBoard();
           targetTextArea.value = ""; 
           return;
+        case 'undoAdd':
+          if(confirm(`Delete ${taskSaved} from ${data[index].title} board?`)) {
+            data[index].tasks.pop();
+            localStorage.setItem('Kanban', JSON.stringify(data));
+            renderBoard(); 
+          } 
+          return;
         case 'swap':
-          const task = data[index].tasks.splice(taskId, 1);
+          const task = data[index].tasks.splice(taskId, 1)[0];
           data[index + swapDirection].tasks.push(task);
+          previousActivities.push({
+            action: 'unSwap',
+            index: index,
+            taskId: taskId,
+            swapDirection: swapDirection,
+            task: task
+          })
+          localStorage.setItem('Kanban', JSON.stringify(data));
+          localStorage.setItem('Previous', JSON.stringify(previousActivities));
+          renderBoard();
+          return;
+        case 'unSwap':
+          data[index + swapDirection].tasks.pop();
+          data[index].tasks.splice(taskId, 0, taskSaved);
           localStorage.setItem('Kanban', JSON.stringify(data));
           renderBoard();
           return;
         case 'delete':
           if(confirm('Delete this task?')) {
-            data[index].tasks.splice(taskId, 1);
-          }          
+            const taskDeleted = data[index].tasks.splice(taskId, 1)[0];
+            previousActivities.push({
+              action: 'unDelete',
+              index: index,
+              taskId: taskId,
+              swapDirection: null,
+              task: taskDeleted
+              }
+            )
+            localStorage.setItem('Previous', JSON.stringify(previousActivities));
+            localStorage.setItem('Kanban', JSON.stringify(data));
+            renderBoard();
+          }
+          return;      
+        case 'unDelete':
+          data[index].tasks.splice(taskId, 0, taskSaved);
           localStorage.setItem('Kanban', JSON.stringify(data));
           renderBoard();
+          return;
         default: return;
       }
     }
 
+    const undoTask = () => {
+      if(previousActivities.length === 0) return;
+      const lastActivity = previousActivities.pop();
+      manageTask(lastActivity.action, lastActivity.index, lastActivity.taskId, lastActivity.swapDirection, lastActivity.task);
+      localStorage.setItem('Previous', JSON.stringify(previousActivities));
+    }
+
+    const undoButton = document.querySelector('#undo-btn');
+    undoButton.addEventListener('click', undoTask);
+
     const renderBoard = () => {
       data.forEach((board, index) => {
-        console.log(board.tasks);
         const currentBoard = data[index];
         const currentBoardTitle = currentBoard.title;
         const currentBoardColor = currentBoard.color;
